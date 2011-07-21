@@ -61,10 +61,12 @@ tomcat/webapps/ROOT/WEB-INF/lib/ folder and restart Cascade.
 Now login to Cascade, go into the Cascade Configuration/Custom 
 Authentication screen and paste in this information: 
 
-     <custom-authentication-module>
-          <class-name>ca.usask.cascade.remoteuserauth</class-name>
-          <should-intercept-login-page>true</should-intercept-login-page>
-     </custom-authentication-module>
+```xml
+<custom-authentication-module>
+    <class-name>ca.usask.cascade.remoteuserauth</class-name>
+    <should-intercept-login-page>true</should-intercept-login-page>
+</custom-authentication-module>
+```
 
 Finally, restart Cascade once more.
 
