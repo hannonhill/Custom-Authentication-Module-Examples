@@ -62,8 +62,8 @@ Now login to Cascade, go into the Cascade Configuration/Custom
 Authentication screen and paste in this information: 
 
      <custom-authentication-module>
-     <class-name>ca.usask.cascade.remoteuserauth</class-name>
-     <should-intercept-login-page>true</should-intercept-login-page>
+          <class-name>ca.usask.cascade.remoteuserauth</class-name>
+          <should-intercept-login-page>true</should-intercept-login-page>
      </custom-authentication-module>
 
 Finally, restart Cascade once more.
