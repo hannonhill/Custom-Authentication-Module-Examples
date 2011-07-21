@@ -5,7 +5,7 @@ The RemoteUser authentication module lets you use various web server
 authentication methods with Cascade.  The plugin itself is very simple 
 as it relies on the web server to do the actual authentication. 
 
-#### Login flows
+### Login flows
 
 When users connect to Cascade, the module checks if the web server has 
 already authenticated them.  If the user has authenticated, they are
@@ -28,14 +28,14 @@ authentication, and the other does not (SSL).  This lets us use CAS for regular
 users and use internal Cascade authentication for test accounts and web 
 services.
 
-#### Apache and Tomcat
+### Apache and Tomcat
 
 In our case, we run Apache in front of Tomcat, and do CAS authentication 
 with the mod_auth_cas Apache authentication module.  I also have a 
 couple of patches for that module that I can share if you are interested. 
 If you don't use Apache, you can do authentication in Tomcat instead. 
 
-#### Installation/Usage
+### Installation/Usage
 
 Before building the plugin, you need to change one line of the java 
 source code. Line 41 currently reads:
