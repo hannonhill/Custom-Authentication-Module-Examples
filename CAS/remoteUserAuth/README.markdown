@@ -82,5 +82,10 @@ Note: If you are using ajp to communicate between Apache and Tomcat, you
 also need to specify tomcatAuthentication="false" to the AJP connector in 
 your tomcat server.xml file.
 
+Credits:
+
 Earl Fogel <earl.fogel@usask.ca>
 University of Saskatchewan
+
+Bradley Wagner <bradley.wagner [at] hannonhill.com>
+Hannon Hill Corporation
