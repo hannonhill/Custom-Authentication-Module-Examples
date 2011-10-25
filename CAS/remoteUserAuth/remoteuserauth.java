@@ -12,12 +12,12 @@ import java.io.*;
 import javax.servlet.http.*;
 import com.hannonhill.cascade.model.security.authentication.*;
 
-public class remoteuserauth extends java.lang.Object
+public class RemoteUserAuth extends java.lang.Object
     implements
 	com.hannonhill.cascade.model.security.authentication.Authenticator {
 
     /* Constructors */
-    public remoteuserauth() {
+    public RemoteUserAuth() {
     }
 
     /* Methods */
@@ -38,7 +38,7 @@ public class remoteuserauth extends java.lang.Object
 	    response.sendRedirect("/customauth");
 	    return true;
 	} else {
-	    response.sendRedirect("http://wcms.usask.ca/logout.html");
+	    response.sendRedirect("http://my.cascadeserver.com/logout");
 	    return true;
 	}
     }
