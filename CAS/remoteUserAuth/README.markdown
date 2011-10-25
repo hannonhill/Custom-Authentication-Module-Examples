@@ -40,9 +40,11 @@ If you don't use Apache, you can do authentication in Tomcat instead.
 Before building the plugin, you need to change one line of the java 
 source code. Line 41 currently reads:
 
-     response.sendRedirect("http://wcms.usask.ca/logout.html");
+     response.sendRedirect("http://my.cascadeserver.com/logout");
 
-Change that to the logout URL for your own site.
+Change that to the logout URL for your environment. If your CAS supports Single Sign-Out,
+this can be the logout service for CAS. If Single Sign-Out is not supported and the 
+mod_auth_cas sessions need to be cleared first, this may be a script
 
 To build the plugin, download the most recent authentication-x.x.jar file from 
 Hannon Hill.
@@ -55,11 +57,11 @@ servlet-api.jar file and run:
 Then, since the plugin says "package ca.usask.cascade", put the resulting 
 class file in an equivalent directory and build a jar file: 
 
-     mkdir ca
-     mkdir ca/usask
-     mkdir ca/usask/cascade
-     mv remoteuserauth.class ca/usask/cascade
-     jar cf remoteuserauth.jar ca/usask/cascade/remoteuserauth.class
+     mkdir org
+     mkdir org/myorg
+     mkdir org/myorg/cascade
+     mv remoteuserauth.class org/myorg/cascade
+     jar cf remoteuserauth.jar org/myorg/cascade/remoteuserauth.class
 
 Now copy that jar file into your Cascade server's 
 tomcat/webapps/ROOT/WEB-INF/lib/ folder and restart Cascade.
@@ -69,7 +71,7 @@ Authentication screen and paste in this information:
 
 ```xml
 <custom-authentication-module>
-    <class-name>ca.usask.cascade.remoteuserauth</class-name>
+    <class-name>org.myorg.cascade.RemoteUserAuth</class-name>
     <should-intercept-login-page>true</should-intercept-login-page>
 </custom-authentication-module>
 ```
