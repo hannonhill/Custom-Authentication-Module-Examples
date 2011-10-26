@@ -49,21 +49,6 @@
       CASSSOEnabled On
 
       ServerName cas-enabled.cascadeserver.com
-
-      # Use this if your CAS does not support Single Sign-Out and you need 
-      # to log people out of mod_auth_cas before redirecting to your 
-      # organization's CAS logout service.
-      # 
-      # Instruct ProxyPass to _not_ proxy /logout url
-      # /logout.php script should be used to destroy local mod_auth_cas
-      # sessions before redirecting to the organization's CAS logout url
-      #
-      #ProxyPass /logout !
-      #Alias /logout /var/www/cas-enabled.cascadeserver.com/logout.php
-      #<Files /logout.php>
-      #  Satisfy Any
-      #  Allow from all
-      #</Files>
         
       # Protect all locations with CAS
       <Location />
@@ -74,8 +59,19 @@
         Require valid-user
         Satisfy Any
       </Location>
-
-      <LocationMatch "^/(css|robots.txt|ajax/getLastBroadcastMessage.act)">
+      
+      # Use this if your CAS does not support Single Sign-Out and you need 
+      # to log people out of mod_auth_cas before redirecting to your 
+      # organization's CAS logout service.
+      # 
+      # Instruct ProxyPass to _not_ proxy /logout url
+      # /logout.php script should be used to destroy local mod_auth_cas
+      # sessions before redirecting to the organization's CAS logout url
+      #
+      #ProxyPass /logout !
+      #Alias /logout /var/www/cas-enabled.cascadeserver.com/logout.php
+      
+      <LocationMatch "^/(css|javascript|robots.txt|ajax/getLastBroadcastMessage.act)">
         Satisfy Any
         Allow from all
       </LocationMatch>
