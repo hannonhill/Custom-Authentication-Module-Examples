@@ -13,6 +13,12 @@
   If anything fails, please check that you have all of the module’s dependencies installed and then try compiling again. May be necessary to pass “--with-apxs” flag specifying location of binaries to use. For example:
   ./configure --with-apxs=/usr/sbin/apxs
   When I did this, I had to install: openssl-devel, httpd-devel, and curl-devel before ./configure would run successfully
+  
+### Configure AJP for Cascade and Apache
+
+- Comment out the HTTP connector tomcat/conf/server.xml if you want to turn of HTTP connections to server
+- Uncomment the AJP connector if it's not already
+- Add a `tomcatAuthentication="false"` attribute to the AJP connector
 
 ### Example VirtualHost config
 
