@@ -50,7 +50,7 @@ To build the plugin, download the most recent authentication-x.x.jar file from
 Hannon Hill.
 
 Next, set your java CLASSPATH to include this jar as well as Tomcat's 
-servlet-api.jar file and run:
+servlet-api.jar file and run (java version must be Java 1.5):
 
      javac remoteuserauth.java
 
