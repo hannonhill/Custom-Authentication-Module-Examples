@@ -21,8 +21,11 @@ import com.hannonhill.cascade.model.security.authentication.Authenticator;
  */
 public class ShibbAuthentication implements Authenticator
 {
-    static Logger logger = Logger.getLogger("shib-log");
-
+    private static Logger logger = Logger.getLogger("shib-log");
+    
+    /**
+     * Logs a message as an ERROR. Useful for debugging as ERRORS show up in the log by default.
+     */
     private void log(String message)
     {
         logger.error(message);
