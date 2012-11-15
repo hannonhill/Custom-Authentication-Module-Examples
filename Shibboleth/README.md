@@ -132,24 +132,27 @@ You can read more about writing Custom Authentication plugin classes in our [Cas
 
 #### Modify the plugin for your organization
 
-1. Update the name of the attribute containging your usernames that you're passing to Tomcat (e.g. `uid`) in both the `redirect()` and `authenticate()` methods.
+1. Update the name of the attribute containing your usernames that you're passing to Tomcat (e.g. `uid`) in both the `redirect()` and `authenticate()` methods.
 2. Update URL being redirected to in `redirect()` during the `LOGOUT` phase if you have another script or location that you wish to send your users
+3. (Optional) Change the package name
 
 NOTE: There is nothing in this plugin containing the URL of the Shibboleth IdP as this is all being handled in Apache.
 
 #### Compiling the plugin 
 
-Requires the following for compilation:
+Requires the following JARs be located in this directory for compilation:
 
-- Tomcat Servlet API - included in [this project](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/tomcat-6.0.32-servlet-api.jar)
-- Log4J JAR - included in [this project](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/log4j-1.2.14.jar)
+- Tomcat's [servlet-api.jar](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/tomcat-6.0.32-servlet-api.jar) or you can copy it from Cascade's `tomcat/lib` directory
+- Log4J's [log4j.jar](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/log4j-1.2.14.jar) or you can copy it from your Cascade `tomcat/webapps/ROOT/WEB-INF/lib` directory
+- Cascade [authentication.jar](https://github.com/hannonhill/Cascade-Server-Authentication-API/blob/master/dist/authentication-7.0.jar)
     
-1. Make a JAR containing your compiled plugin file (i.e. the `.class` file)
+1. Compile the Java class: `javac -classpath log4j-1.2.14.jar:tomcat-6.0.32-servlet-api.jar:authentication-7.0.jar ShibbAuthentication.java -d .` -- Compiles `.java` files into `.class` files into a sub-directory based on the package name (e.g. `com/hannonhill/cascade/shibb`)
+2. JAR up the class files: `jar cf shibb-plugin.jar com` where "com" is the directory containing your class files
 
 #### Install the plugin 
 
 1. Stop Cascade
-2. Drop the JAR into `$CASCADE_HOME/tomcat/webapps/ROOT/WEB-INF/lib`
+2. Drop the compiled JAR into `$CASCADE_HOME/tomcat/webapps/ROOT/WEB-INF/lib`
 3. Start Cascade
 4. Login into Cascade. NOTE: You will need a user with the Administration role that uses Normal authentication to be able to login.
 5. Go to System Menu > Configuration > Custom Authentication
