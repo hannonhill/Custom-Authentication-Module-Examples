@@ -130,7 +130,8 @@ You can read more about writing Custom Authentication plugin classes in our [Cas
 
 To install the plugin in Cascade:
 
-1. Make a JAR containing your implementation of the Authenticator interface
+1. Compile the plugin as a `.class` file
+1. Make a JAR containing your compiled plugin file (i.e. the `.class` file)
 2. Stop Cascade
 3. Drop the JAR into `$CASCADE_HOME/tomcat/webapps/ROOT/WEB-INF/lib`
 4. Start Cascade
