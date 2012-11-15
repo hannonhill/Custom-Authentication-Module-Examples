@@ -1,4 +1,4 @@
-package edu.rochester.cascade.shibb;
+package com.hannonhill.cascade.shibb;
 
 import java.io.IOException;
 
