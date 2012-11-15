@@ -31,18 +31,30 @@ public class ShibbAuthentication implements Authenticator
         logger.error(message);
     }
 
+    /**
+     * Determines if the user should be redirected to a particular place during LOGIN or LOGOUT
+     * 
+     * Use the reseponse to set a redirect location.
+     * 
+     * @param request
+     * @param response
+     * @param authenticationPhase Indicates whether the user is logging in or logging out
+     * @return Returns a boolean that indicates whether the user should be redirected or not
+               If a user is not redirected during LOGIN, they will end up at the Cascade login screen.
+     */
     public boolean redirect(HttpServletRequest request, HttpServletResponse response, AuthenticationPhase authenticationPhase) throws IOException
     {
-        // Allows login through the normal Cascade interface if you're allowing
-        // traffic to flow through Apache on a different port or virtual host
-        // and not go through Shibboleth
+        // If the Shibboleth attribute is not present in the request, this allows
+        // login through the normal Cascade interface using a Normal authentication user.
+        // This is useful for creating a backdoor into Cascade using a different port
+        // or virtual host in Apache that does not require a Shibboleth session
         if (request.getAttribute("uid") == null)
             return false;
 
         switch (authenticationPhase)
         {
         case LOGIN:
-            // Redirect to the custom authentication servlet so that it can call authenticate()
+            // Redirect to the custom authentication servlet so that it can call this classes' authenticate()
             response.sendRedirect(Authenticator.AUTHENTICATION_URI);
             return true;
         case LOGOUT:
