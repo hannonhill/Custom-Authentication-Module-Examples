@@ -43,11 +43,10 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
 5.  Curl the organization’s metadata: e.g. `curl -k http://yourorg.com/path/to/metadata -o /etc/shibboleth/example-metadata.xml` to have a local copy.
 6. If the metadata is publicly accessible via the web, add the appropriate `uri` and `backingFile` attributes to `<MetadataProvider>`:
 
-```xml
-    <!-- Example of remotely supplied batch of signed metadata. -->
-    <MetadataProvider type="XML" uri="https://shibb.yourorg.com/idp/shibboleth" backingFile="example-metadata.xml" reloadInterval="7200">
-    </MetadataProvider>
-```
+         <!-- Example of remotely supplied batch of signed metadata. -->
+         <MetadataProvider type="XML" uri="https://shibb.yourorg.com/idp/shibboleth" backingFile="example-metadata.xml" reloadInterval="7200">
+         </MetadataProvider>
+
 7. If the organization does not make their metadata publicly available through a URI, you can download the metadata and point Shibboleth to the file with the `path` attribute.
 8. I also had to remove the MetadataFilter sub-elements to get this to work correctly
 9. Find out what the appropriate attribute is in Shibboleth for what will be your Cascade usernames and make sure that attribute is mapped in `/etc/shibboleth/attribute-map.xml`. See our [attribute-map.xml](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/attribute-map.xml) for an example. In our case, it required adding:
