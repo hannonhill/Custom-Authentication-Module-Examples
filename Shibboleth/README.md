@@ -118,7 +118,9 @@ First, you need to set Cascade to run over SSL
 
 Once the above is done, you should be able to connect to your Cascade server instance, be redirected to your Shibboleth server, login and be redirected back to Cascade. You'll likely arrive at the login screen.
 
-The last step is writing a Custom Authentication plugin and enabling it in Cascade. See [our example plugin](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/ShibbAuthentication.java) here.
+The last step is writing a Custom Authentication plugin and enabling it in Cascade. 
+
+You can use/modify our [our example plugin](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/ShibbAuthentication.java) here.
 
 A few notes:
 
@@ -128,25 +130,34 @@ A few notes:
 
 You can read more about writing Custom Authentication plugin classes in our [Cascade Server Authentication API project](https://github.com/hannonhill/Cascade-Server-Authentication-API)
 
-To install the plugin in Cascade:
+#### Modify the plugin for your organization
 
-1. Compile the plugin as a `.class` file
+1. Update the name of the attribute containging your usernames that you're passing to Tomcat (e.g. `uid`) in both the `redirect()` and `authenticate()` methods.
+2. Update URL being redirected to in `redirect()` during the `LOGOUT` phase if you have another script or location that you wish to send your users
+
+NOTE: There is nothing in this plugin containing the URL of the Shibboleth IdP as this is all being handled in Apache.
+
+#### Compiling the plugin 
+
+Requires the following for compilation:
+
+- Tomcat Servlet API - included in [this project](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/tomcat-6.0.32-servlet-api.jar)
+- Log4J JAR - included in [this project](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/log4j-1.2.14.jar)
+    
 1. Make a JAR containing your compiled plugin file (i.e. the `.class` file)
-2. Stop Cascade
-3. Drop the JAR into `$CASCADE_HOME/tomcat/webapps/ROOT/WEB-INF/lib`
-4. Start Cascade
-5. Login into Cascade. NOTE: You will need a user with the Administration role that uses Normal authentication to be able to login.
-6. Go to System Menu > Configuration > Custom Authentication
-7. Add the following configuration and substitute the `<class-name>` for the package-qualified classname of your plugin class that you wrote:
+
+#### Install the plugin 
+
+1. Stop Cascade
+2. Drop the JAR into `$CASCADE_HOME/tomcat/webapps/ROOT/WEB-INF/lib`
+3. Start Cascade
+4. Login into Cascade. NOTE: You will need a user with the Administration role that uses Normal authentication to be able to login.
+5. Go to System Menu > Configuration > Custom Authentication
+6. Add the following configuration and substitute the `<class-name>` for the package-qualified classname of your plugin class that you wrote:
 
         <custom-authentication-module>
           <class-name>com.hannonhill.cascade.shibb.ShibbAuthentication</class-name>
           <should-intercept-login-page>true</should-intercept-login-page>
         </custom-authentication-module>
         
-8. Attempt to connect to your instance again. After authenticating in Shibboleth you should be automatically taken into Cascade.
-
-
-
-
-
+7. Attempt to connect to your instance again. After authenticating in Shibboleth you should be automatically taken into Cascade.
