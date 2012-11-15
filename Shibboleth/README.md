@@ -2,16 +2,13 @@
 
 This authentication plugin leverages a Linux Shibboleth package and a Shibboleth authentication module for Apache to do most of the authentication legwork.
 
-You'll need:
-
-- Shibboleth 2 Service Provider
-- Apache HTTP Server + mod_proxy_ajp + mod_shibb_22
-- Tomcat AJP Connnector
-- SSL certificates -- Shibboleth IdPs only like to talk to SPs over SSL
+The plugin simply pulls the attribute containing the username out of the request. It is also responsible for invalidating the session on logout.
 
 ### Pre-reqs
 
 - Ensure that your Apache version has mod_proxy_ajp installed. Most do by default.
+- Shibboleth 2 Service Provider
+- SSL certificates -- Shibboleth IdPs only like to talk to SPs over SSL
 
 ### Install Shibboleth Service Provider
 
