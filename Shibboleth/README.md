@@ -38,7 +38,7 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
 
 1. Edit `/etc/shibboleth/shibboleth2.xml`
 2. Set a unique `entityId` for `<ApplicationDefaults>` -- e.g. https://cascade.yourorg.com/shibboleth
-3. Set the support contact email to: support@yourorg.com (will be support@hannonhill.com for Hannon Hill's hosted instances)
+3. Set the support contact email (`supportContact` attribute on `<Errors>` element) to: support@yourorg.com (will be support@hannonhill.com for Hannon Hill's hosted instances)
 4. Add: `attributePrefix="AJP_"` attribute to the `<ApplicationDefaults>`. This is necessary when proxying via `mod_proxy_ajp` as AJP will only send environment variables with an "AJP_" prefix to Tomcat.
 5.  Curl the organization’s metadata: e.g. `curl -k http://yourorg.com/path/to/metadata -o /etc/shibboleth/example-metadata.xml` to have a local copy.
 6. If the metadata is publicly accessible via the web, add the appropriate `uri` and `backingFile` attributes to `<MetadataProvider>`:
