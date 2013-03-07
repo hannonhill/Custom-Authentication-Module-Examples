@@ -62,10 +62,10 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
         </Attribute>
 
 10. Verify your changes by restarting shibboleth: `sudo /etc/init.d/shibd restart` and making sure everything is `OK`
-11. Create some SP metadata to add to your Shibboleth Identity Provider since we’re not a member of any federations:
+11. Create some SP metadata to add to your Shibboleth Identity Provider since we’re not a member of any federations. You'll need a valid SSL cert in order to be able to generate the metadata.
 
         cd /etc/shibboleth
-        sudo ./metagen.sh -c /etc/shibboleth/blah.cascadeserver.com.crt -h blah.cascadeserver.com -e https://blah.cascadeserver.com/shibboleth > metadata.xml
+        sudo ./metagen.sh -c /etc/shibboleth/blah.cascadeserver.com.ssl.crt -h blah.cascadeserver.com -e https://blah.cascadeserver.com/shibboleth > metadata.xml
 
 12. Send the metadata to someone who can install it on the Shibboleth IdP end.
 
