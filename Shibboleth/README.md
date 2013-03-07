@@ -40,7 +40,8 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
 2. Set a unique `entityId` for `<ApplicationDefaults>` -- e.g. https://cascade.yourorg.com/shibboleth
 3. Set the support contact email (`supportContact` attribute on `<Errors>` element) to: support@yourorg.com (will be support@hannonhill.com for Hannon Hill's hosted instances)
 4. Add: `attributePrefix="AJP_"` attribute to the `<ApplicationDefaults>`. This is necessary when proxying via `mod_proxy_ajp` as AJP will only send environment variables with an "AJP_" prefix to Tomcat.
-5.  Curl the organization’s metadata: e.g. `curl -k http://yourorg.com/path/to/metadata -o /etc/shibboleth/example-metadata.xml` to have a local copy.
+5. Curl the organization’s metadata: e.g. `curl -k http://yourorg.com/path/to/metadata -o /etc/shibboleth/example-metadata.xml` to have a local copy.
+6. Uncomment the `<MetadataProvider>` element in shibboleth2.xml 
 6. If the metadata is publicly accessible via the web, add the appropriate `uri` and `backingFile` attributes to `<MetadataProvider>`:
 
          <!-- Example of remotely supplied batch of signed metadata. -->
@@ -48,6 +49,11 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
          </MetadataProvider>
 
 7. If the organization does not make their metadata publicly available through a URI, you can download the metadata and point Shibboleth to the file with the `path` attribute.
+
+         <!-- Example of remotely supplied batch of signed metadata. -->
+         <MetadataProvider type="XML" path="/path/to/their/local/metadata.xml" reloadInterval="7200">
+         </MetadataProvider>
+     
 8. I also had to remove the MetadataFilter sub-elements to get this to work correctly
 9. Find out what the appropriate attribute is in Shibboleth for what will be your Cascade usernames and make sure that attribute is mapped in `/etc/shibboleth/attribute-map.xml`. See our [attribute-map.xml](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/attribute-map.xml) for an example. In our case, it required adding:
 
