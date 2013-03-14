@@ -61,6 +61,7 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
           <AttributeDecoder xsi:type="StringAttributeDecoder"/>
         </Attribute>
 
+6. Uncomment the `<SSO>` element and set the `entityId` to match the `entityId` in the provided metadata of the IdP
 10. Verify your changes by restarting shibboleth: `sudo /etc/init.d/shibd restart` and making sure everything is `OK`
 11. Create some SP metadata to add to your Shibboleth Identity Provider since we’re not a member of any federations. You'll need a valid SSL cert in order to be able to generate the metadata.
 
