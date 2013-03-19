@@ -69,6 +69,7 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
         sudo ./metagen.sh -c /etc/shibboleth/blah.cascadeserver.com.ssl.crt -h blah.cascadeserver.com -e https://blah.cascadeserver.com/shibboleth > metadata.xml
 
 12. Send the metadata to someone who can install it on the Shibboleth IdP end.
+13. (Optional) In some cases, you may need to uncomment the `<CredentialResolver>` and set the "key" and "certificate" attributes to point to the SSL key and cert. You'll get a message in the shibd.log about needing to decrypt the message if this step is required.
 
 ### Configure Tomcat for AJP
 
