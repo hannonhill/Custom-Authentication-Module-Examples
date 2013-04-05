@@ -66,7 +66,7 @@ I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/con
 11. Create some SP metadata to add to your Shibboleth Identity Provider since we’re not a member of any federations. You'll need a valid SSL cert in order to be able to generate the metadata.
 
         cd /etc/shibboleth
-        sudo ./metagen.sh -c /etc/shibboleth/blah.cascadeserver.com.ssl.crt -h blah.cascadeserver.com -e https://blah.cascadeserver.com/shibboleth > metadata.xml
+        sudo ./metagen.sh -c /path/to/blah.cascadeserver.com.ssl.crt -h blah.cascadeserver.com -e https://blah.cascadeserver.com/shibboleth > ~/metadata.xml
 
 12. Send the metadata to someone who can install it on the Shibboleth IdP end.
 13. (Optional) In some cases, you may need to uncomment the `<CredentialResolver>` and set the "key" and "certificate" attributes to point to the SSL key and cert. You'll get a message in the shibd.log about needing to decrypt the message if this step is required.
@@ -107,8 +107,8 @@ First, you need to set Cascade to run over SSL
           SSLCipherSuite HIGH:MEDIUM
           SSLCipherSuite  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
           SSLProtocol all -SSLv2
-          SSLCertificateFile /etc/shibboleth/blah.cascadeserver.com.crt
-          SSLCertificateKeyFile /etc/shibboleth/blah.cascadeserver.com.key
+          SSLCertificateFile /path/to/blah.cascadeserver.com.crt
+          SSLCertificateKeyFile /path/to/blah.cascadeserver.com.key
           SSLOptions +StdEnvVars
           BrowserMatch ".*MSIE.*" \ nokeepalive ssl-unclean-shutdown \ downgrade-1.0 force-response-1.0
         
