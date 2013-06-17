@@ -7,7 +7,7 @@
 
 ### Build and Install mod_auth_cas on Apache server
 
-- Download latest tag of Jasig’s mod_auth_cas project
+- [Download latest tag](https://github.com/Jasig/mod_auth_cas/tree/v1.0.9.1) of Jasig’s mod_auth_cas project
 - Unzip into its own directory
 - Navigate to directory and run: `.configure; make; make install`
   If anything fails, please check that you have all of the module’s dependencies installed and then try compiling again. May be necessary to pass “--with-apxs” flag specifying location of binaries to use. For example:
