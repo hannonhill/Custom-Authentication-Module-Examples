@@ -40,6 +40,7 @@ I followed the [SP getting started guide](https://wiki.shibboleth.net/confluence
 2. Set a unique `entityId` for `<ApplicationDefaults>` -- e.g. https://cascade.yourorg.com/shibboleth
 3. Set the support contact email (`supportContact` attribute on `<Errors>` element) to: support@yourorg.com (will be support@hannonhill.com for Hannon Hill's hosted instances)
 4. Add: `attributePrefix="AJP_"` attribute to the `<ApplicationDefaults>`. This is necessary when proxying via `mod_proxy_ajp` as AJP will only send environment variables with an "AJP_" prefix to Tomcat.
+5. Ensure that the "REMOTE_USER" attribute on <ApplicationDefaults> contains the name of the attribute that will contain your username -- e.g. 'eppn', 'uid', 'user'
 5. Curl the organization’s metadata: e.g. `curl -k http://yourorg.com/path/to/metadata -o /etc/shibboleth/example-metadata.xml` to have a local copy.
 6. Uncomment the `<MetadataProvider>` element in shibboleth2.xml 
 6. If the metadata is publicly accessible via the web, add the appropriate `uri` and `backingFile` attributes to `<MetadataProvider>`:
@@ -55,7 +56,7 @@ I followed the [SP getting started guide](https://wiki.shibboleth.net/confluence
          </MetadataProvider>
      
 8. I also had to remove the MetadataFilter sub-elements to get this to work correctly
-9. Find out what the appropriate attribute is in Shibboleth for what will be your Cascade usernames and make sure that attribute is mapped in `/etc/shibboleth/attribute-map.xml`. See our [attribute-map.xml](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/attribute-map.xml) for an example. In our case, it required adding:
+9. Find out what the appropriate attribute is in Shibboleth for what will be your Cascade usernames and make sure that attribute is mapped in `/etc/shibboleth/attribute-map.xml`. See our [attribute-map.xml](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/attribute-map.xml) for an example. A alot of times, you can see which attributes the IdP exposes by going to: https://idp.blah.com/attribute-map.xml. You'll still need to find out which attribute corresponds to the Cascade username. In our case, it required adding:
 
         <Attribute name="urn:oid:0.9.2342.19200300.100.1.1" id="uid">
           <AttributeDecoder xsi:type="StringAttributeDecoder"/>
