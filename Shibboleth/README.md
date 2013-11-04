@@ -119,7 +119,7 @@ First, you need to set Cascade to run over SSL
 
 Next, you need to make sure that the `/Shibboleth.sso/*` URLs do not require a `valid-user` or you will get stuck in a loop.
 
-The apache22.conf file comes with the following:
+The config file: apache22.conf that gets copied over on install contains:
 
 ```
 <Location /Shibboleth.sso>
@@ -128,13 +128,7 @@ The apache22.conf file comes with the following:
 </Location>
 ```
 
-which I had to change to:
-
-```
-<Location /Shibboleth.sso>
-  Require all granted
-</Location>
-```
+which you can simply remove. The shib Apache module appears to be smart enough to know not to protect: /Shibboleth.sso/* URLs even thought we're not explicitly exposing them.
 
 Once you've got your configuration in place, test to make sure that you can get to: `https://blah.cascadeserer.com/Shibboleth.sso/Session`. If you cannot, you'll need to remove other parts of the config until you can hit that URL. Remove your VirtualHost and 
 add back one piece at a time while checking that you can still hit `https://blah.cascadeserer.com/Shibboleth.sso/Session`.
