@@ -91,36 +91,56 @@ First, you need to set Cascade to run over SSL
 2. Ensure that Apache is listening on port 443 -- i.e. `Listen 443` in `/etc/httpd/conf/http.conf
 3. Enable `NameVirtualHost *:443` in `/etc/httpd/conf/http.conf`
 4. Ensure that `mod_proxy_ajp` is installed and enabled -- i.e. `LoadModule proxy_ajp_module modules/mod_proxy_ajp.so` in `/etc/httpd/conf/http.conf` is uncommented
-5. Create a `<VirtualHost>` in a `.conf` file somewhere `/etc/httpd/conf.d`. In our case, this just required adding one to `/etc/httpd/conf.d/ssl.conf`:
-    
-        <VirtualHost *:443>
-          ServerName blah.cascadeserver.com
-          ProxyPass / ajp://localhost:8009/
-          ProxyPassReverse / http://localhost:8009/
-          SSLProxyEngine on
-          SSLEngine on
-          ServerAdmin support@hannonhill.com
-          ErrorLog logs/blah.cascadeserver.com-error_log
-          TransferLog logs/blah.cascadeserver.com-transfer_log
-          CustomLog logs/blah.cascadeserver.com-access_log \
-            "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
-          SSLCipherSuite HIGH:MEDIUM
-          SSLCipherSuite  ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
-          SSLProtocol all -SSLv2
-          SSLCertificateFile /path/to/blah.cascadeserver.com.crt
-          SSLCertificateKeyFile /path/to/blah.cascadeserver.com.key
-          SSLOptions +StdEnvVars
-          BrowserMatch ".*MSIE.*" \ nokeepalive ssl-unclean-shutdown \ downgrade-1.0 force-response-1.0
+5. Create a `<VirtualHost>` in a `.conf` file om `/etc/httpd/conf.d`. In our case, this just required adding one to `/etc/httpd/conf.d/ssl.conf`:
+
+
+```
+<VirtualHost *:443>
+  ServerName blah.cascadeserver.com
+  
+  SSLProxyEngine on
+  SSLEngine on
+  ServerAdmin support@hannonhill.com
+         
+  SSLCertificateFile /path/to/blah.cascadeserver.com.crt
+  SSLCertificateKeyFile /path/to/blah.cascadeserver.com.key
         
-          <Location />
-            AuthType shibboleth
-            ShibRequestSetting requireSession 1
-            require valid-user
-          </Location>
-        </VirtualHost>
+  <Location />
+    AuthType shibboleth
+    ShibRequestSetting requireSession 1
+    require valid-user
+  </Location>
+
+  ProxyPass / ajp://localhost:8009/
+  ProxyPassReverse / http://localhost:8009/
+</VirtualHost>
+```
         
 6. Notice we're referencing the path to our `SSLCertificateFile` and `SSLCertificateKeyFile` in the configuration above
 7. We also added a `<Location>` block to restrict access to all paths to users that have a valid Shibboleth session.
+
+Next, you need to make sure that the `/Shibboleth.sso/*` URLs do not require a `valid-user` or you will get stuck in a loop.
+
+The apache22.conf file comes with the following:
+
+```
+<Location /Shibboleth.sso>
+  Satisfy Any
+  Allow from all
+</Location>
+```
+
+which I had to change to:
+
+```
+<Location /Shibboleth.sso>
+  Require all granted
+</Location>
+```
+
+Once you've got your configuration in place, test to make sure that you can get to: `https://blah.cascadeserer.com/Shibboleth.sso/Session`.
+If you cannot, you'll need to remove other parts of the config until you can hit that URL. Remove your VirtualHost and 
+add back one piece at a time while checking that you can still hit `https://blah.cascadeserer.com/Shibboleth.sso/Session`.
 
 ### Writing and Enabling a Custom Authentication plugin in Cascade
 
