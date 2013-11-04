@@ -135,8 +135,7 @@ which I had to change to:
 </Location>
 ```
 
-Once you've got your configuration in place, test to make sure that you can get to: `https://blah.cascadeserer.com/Shibboleth.sso/Session`.
-If you cannot, you'll need to remove other parts of the config until you can hit that URL. Remove your VirtualHost and 
+Once you've got your configuration in place, test to make sure that you can get to: `https://blah.cascadeserer.com/Shibboleth.sso/Session`. If you cannot, you'll need to remove other parts of the config until you can hit that URL. Remove your VirtualHost and 
 add back one piece at a time while checking that you can still hit `https://blah.cascadeserer.com/Shibboleth.sso/Session`.
 
 ### Writing and Enabling a Custom Authentication plugin in Cascade
