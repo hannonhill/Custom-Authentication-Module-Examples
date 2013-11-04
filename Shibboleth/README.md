@@ -92,6 +92,7 @@ First, you need to set Cascade to run over SSL
 3. Enable `NameVirtualHost *:443` in `/etc/httpd/conf/http.conf`
 4. Ensure that `mod_proxy_ajp` is installed and enabled -- i.e. `LoadModule proxy_ajp_module modules/mod_proxy_ajp.so` in `/etc/httpd/conf/http.conf` is uncommented
 5. Create a `<VirtualHost>` in a `.conf` file om `/etc/httpd/conf.d`. In our case, this just required adding one to `/etc/httpd/conf.d/ssl.conf`:
+
         <VirtualHost *:443>
           ServerName blah.cascadeserver.com
           
@@ -111,6 +112,7 @@ First, you need to set Cascade to run over SSL
           ProxyPass / ajp://localhost:8009/
           ProxyPassReverse / http://localhost:8009/
         </VirtualHost>
+        
 6. Notice we're referencing the path to our `SSLCertificateFile` and `SSLCertificateKeyFile` in the configuration above
 7. We also added a `<Location>` block to restrict access to all paths to users that have a valid Shibboleth session.
 
