@@ -34,7 +34,7 @@ Enable “worker” mode in Apache by:
 
 ### Configure Shibboleth to talk to your IdP
 
-I followed the [SP getting started guide](Follow https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPGettingStarted) and the [Java Servlets guide](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPJavaInstall)
+I followed the [SP getting started guide](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPGettingStarted) and the [Java Servlets guide](https://wiki.shibboleth.net/confluence/display/SHIB2/NativeSPJavaInstall)
 
 1. Edit `/etc/shibboleth/shibboleth2.xml`
 2. Set a unique `entityId` for `<ApplicationDefaults>` -- e.g. https://cascade.yourorg.com/shibboleth
