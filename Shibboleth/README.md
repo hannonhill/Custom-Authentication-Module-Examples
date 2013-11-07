@@ -165,7 +165,7 @@ Requires the following JARs be located in this directory for compilation:
 - Cascade [authentication.jar](https://github.com/hannonhill/Cascade-Server-Authentication-API/tree/master/dist)
     
 1. Compile the Java class: `javac -classpath log4j-1.2.14.jar:tomcat-6.0.32-servlet-api.jar:authentication-7.0.jar ShibbAuthentication.java -d .` -- Compiles `.java` files into `.class` files into a sub-directory based on the package name (e.g. `com/hannonhill/cascade/shibb`)
-2. JAR up the class files: `jar cf shibb-plugin.jar com` where "com" is the directory containing your class files
+2. JAR up the class files: `jar cf shib-plugin.jar com` where "com" is the directory containing your class files
 
 #### Install the plugin 
 
