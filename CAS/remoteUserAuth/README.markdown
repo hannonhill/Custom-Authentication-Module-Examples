@@ -50,10 +50,14 @@ To build the plugin, download the most recent authentication-x.x.jar file from
 Hannon Hill.
 
 Next, set your java CLASSPATH to include this jar as well as Tomcat's 
-servlet-api.jar file and run (be sure to compile with the same java version that
-runs Cascade, or use the `-target` parameter to specify the correct version):
+servlet-api.jar file (or provide `-classpath` parameter to specify paths to these files) and run. Be sure to compile with the same java version that
+runs Cascade, or use the `-target` parameter to specify the correct version:
 
-     javac remoteuserauth.java
+     javac RemoteUserAuth.java
+     
+or
+
+     javac -classpath /path/to/authentication-x.x.jar:/path/to/servlet-api.jar RemoteUserAuth.java 
 
 Then, since the plugin says "package ca.usask.cascade", put the resulting 
 class file in an equivalent directory and build a jar file: 
