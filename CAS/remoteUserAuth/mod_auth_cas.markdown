@@ -7,16 +7,30 @@
 
 ### Build and Install mod_auth_cas on Apache server
 
-- Download latest stable version of [Jasig’s mod_auth_cas project](https://github.com/Jasig/mod_auth_cas)
+- Download latest stable version of [Jasig/Apereo’s mod_auth_cas project](https://github.com/apereo/mod_auth_cas)
 - Unzip into its own directory
-- Navigate to directory and run: `.configure; make; make install`
-  If anything fails, please check that you have all of the module’s dependencies installed and then try compiling again. May be necessary to pass “--with-apxs” flag specifying location of binaries to use. For example:
-  ./configure --with-apxs=/usr/sbin/apxs
-  When I did this, I had to install: gcc, openssl-devel, httpd-devel, curl-devel, and pcre-devel before ./configure would run successfully
+- Libraries required to compile: 
+  - gcc
+  - httpd24-devel
+  - libcurl-devel
+  - openssl-devel
+  - pcre-devel
+- Navigate to directory and run: 
+  
+  ```
+  autoreconf -ivf
+  .configure && make && sudo make install
+  ```
+
+If anything fails, please check that you have all of the module’s dependencies installed and then try compiling again. May be necessary to pass `--with-apxs24` flag specifying location of binaries to use. For example:
+
+```
+./configure --with-apxs24=/usr/sbin/apxs
+```
   
 ### Configure AJP for Cascade and Apache
 
-- Comment out the HTTP connector tomcat/conf/server.xml if you want to turn of HTTP connections to server
+- Comment out the HTTP connector `tomcat/conf/server.xml` if you want to turn of HTTP connections to server
 - Uncomment the AJP connector if it's not already
 - Add a `tomcatAuthentication="false"` attribute to the AJP connector
 
@@ -30,13 +44,10 @@
       ErrorLog /var/log/httpd/cascade_error_log
       CustomLog /var/log/httpd/cascade_access_log combined
 
-      CASAllowWildcardCert On
-
       CASLoginURL https://my.org/cas/login
       CASValidateURL https://my.org/cas/serviceValidate
 
       # Not validating the server for now
-      CASValidateServer Off
       CASCertificatePath /path/to/certificate
 
       #CASIdleTimeout 60
@@ -53,11 +64,12 @@
       # Protect all locations with CAS
       <Location />
         CASScope /
-        Order deny,allow
-        Deny from all
         AuthType CAS
-        Require valid-user
-        Satisfy Any
+
+        <RequireAny>
+          Require all denied
+          Require valid-user  
+        </RequireAny>
       </Location>
       
       # Use this if your CAS does not support Single Sign-Out and you need 
@@ -72,8 +84,13 @@
       #Alias /logout /var/www/cas-enabled.cascadeserver.com/logout.php
       
       <LocationMatch "^/(css|javascript|robots.txt|ajax/getLastBroadcastMessage.act)">
-        Satisfy Any
-        Allow from all
+        Require all granted
+      </LocationMatch>
+      
+      <LocationMatch "^/(api|ws)">
+        <RequireAny>
+          Require host any
+        </RequireAny>
       </LocationMatch>
 
       ProxyPass / ajp://<internal-ip>:8009/
