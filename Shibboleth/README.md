@@ -79,9 +79,8 @@ On your Cascade Server machine:
 
 1. Uncomment the AJP `<Connector>` element in `tomcat/conf/server.xml` that has `protocol=”AJP/1.3”`.
 2. Add a `tomcatAuthentication=”false”` attribute to the `<Connector>` element too
-3. Comment out the HTTP `<Connector>` element with `protocol=”HTTP/1.1”` to ensure that traffic is going through the AJP port
-4. Add `packetSize=”65536”` to AJP <Connector> element
-5. Go back to Apache and add “ProxyIOBufferSize 65536” somewhere in Apache HTTP’s configuration to allow larger packets to be passed to Tomcat. I did this in the file where I declared my Cascade `<VirtualHost>` below
+3. Add `packetSize=”65536”` to AJP <Connector> element
+4. Go back to Apache and add `ProxyIOBufferSize 65536` somewhere in Apache HTTP’s configuration to allow larger packets to be passed to Tomcat. I did this in the file where I declared my Cascade `<VirtualHost>` below
 
 ### Configure Apache to route traffic to Tomcat
 
@@ -94,25 +93,32 @@ First, you need to set Cascade to run over SSL
 5. Create a `<VirtualHost>` in a `.conf` file om `/etc/httpd/conf.d`. In our case, this just required adding one to `/etc/httpd/conf.d/ssl.conf`:
 
         <VirtualHost *:443>
-          ServerName blah.cascadeserver.com
-          
+          ServerName blah.cascadecms.com
+
           SSLProxyEngine on
           SSLEngine on
           ServerAdmin support@hannonhill.com
-                 
-          SSLCertificateFile /path/to/blah.cascadeserver.com.crt
-          SSLCertificateKeyFile /path/to/blah.cascadeserver.com.key
-                
+
+          SSLCertificateFile /path/to/blah.cascadecms.com.crt
+          SSLCertificateKeyFile /path/to/blah.cascadecms.com.key
+
           <Location />
             AuthType shibboleth
             ShibRequestSetting requireSession 1
             require valid-user
           </Location>
 
+          # Allow access to static resources
+          <LocationMatch "^/(assets|css|javascript|robots.txt|ajax/getLastBroadcastMessage.act|websocket)">
+            Require all granted
+          </LocationMatch>
+
           ProxyPass / ajp://localhost:8009/
           ProxyPassReverse / http://localhost:8009/
+          ProxyPass /websocket ws://localhost:8080/websocket
+          ProxyPassReverse /websocket ws://localhost:8080/websocket
         </VirtualHost>
-        
+
 6. Notice we're referencing the path to our `SSLCertificateFile` and `SSLCertificateKeyFile` in the configuration above
 7. We also added a `<Location>` block to restrict access to all paths to users that have a valid Shibboleth session.
 
@@ -129,8 +135,8 @@ The config file: apache22.conf that gets copied over on install contains:
 
 which you can simply remove. The shib Apache module appears to be smart enough to know not to protect: /Shibboleth.sso/* URLs even thought we're not explicitly exposing them.
 
-Once you've got your configuration in place, test to make sure that you can get to: `https://blah.cascadeserer.com/Shibboleth.sso/Session`. If you cannot, you'll need to remove other parts of the config until you can hit that URL. Remove your VirtualHost and 
-add back one piece at a time while checking that you can still hit `https://blah.cascadeserer.com/Shibboleth.sso/Session`.
+Once you've got your configuration in place, test to make sure that you can get to: `https://blah.cascadecms.com/Shibboleth.sso/Session`. If you cannot, you'll need to remove other parts of the config until you can hit that URL. Remove your VirtualHost and
+add back one piece at a time while checking that you can still hit `https://blah.cascadecms.com/Shibboleth.sso/Session`.
 
 ### Writing and Enabling a Custom Authentication plugin in Cascade
 
