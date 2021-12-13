@@ -46,27 +46,15 @@ Change that to the logout URL for your environment. If your CAS supports Single 
 this can be the logout service for CAS. If Single Sign-Out is not supported and the 
 mod_auth_cas sessions need to be cleared first, this may be a script
 
-To build the plugin, download the most recent authentication-x.x.jar file from 
-Hannon Hill.
+To build the plugin, a Cascade CMS installation is required for compilation.
 
-Next, set your java CLASSPATH to include this jar as well as Tomcat's 
-servlet-api.jar file (or provide `-classpath` parameter to specify paths to these files) and run. Be sure to compile with the same java version that
-runs Cascade, or use the `-target` parameter to specify the correct version:
+```
+/path/to/cascade/java/jdk/bin/javac -cp /path/to/cascade/tomcat/lib/*:/path/to/cascade/tomcat/webapps/ROOT/WEB-INF/lib/*:/path/to/cascade/tomcat/webapps/ROOT/WEB-INF/classes RemoteUserAuth.java -d .
 
-     javac RemoteUserAuth.java
-     
-or
+/path/to/cascade/java/jdk/bin/jar cf remoteuserauth.jar com
+```
 
-     javac -classpath /path/to/authentication-x.x.jar:/path/to/servlet-api.jar RemoteUserAuth.java 
-
-Then, since the plugin says "package ca.usask.cascade", put the resulting 
-class file in an equivalent directory and build a jar file: 
-
-     mkdir org
-     mkdir org/myorg
-     mkdir org/myorg/cascade
-     mv remoteuserauth.class org/myorg/cascade
-     jar cf remoteuserauth.jar org/myorg/cascade/remoteuserauth.class
+Where `/path/to/cascade` is a valid Cascade CMS installation path.
 
 Now copy that jar file into your Cascade server's 
 tomcat/webapps/ROOT/WEB-INF/lib/ folder and restart Cascade.

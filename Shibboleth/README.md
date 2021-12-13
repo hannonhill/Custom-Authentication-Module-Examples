@@ -164,14 +164,17 @@ NOTE: There is nothing in this plugin containing the URL of the Shibboleth IdP a
 
 #### Compiling the plugin 
 
-Requires the following JARs be located in this directory for compilation:
-
-- Tomcat's [servlet-api.jar](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/tomcat-6.0.32-servlet-api.jar) or you can copy it from Cascade's `tomcat/lib` directory
-- Log4J's [log4j.jar](https://github.com/hannonhill/Custom-Authentication-Module-Examples/tree/master/Shibboleth/log4j-1.2.14.jar) or you can copy it from your Cascade `tomcat/webapps/ROOT/WEB-INF/lib` directory
-- Cascade [authentication.jar](https://github.com/hannonhill/Cascade-Server-Authentication-API/tree/master/dist)
+Note: Requires a Cascade CMS installation for compilation.
     
-1. Compile the Java class: `javac -classpath log4j-1.2.14.jar:tomcat-6.0.32-servlet-api.jar:authentication-7.0.jar ShibbAuthentication.java -d .` -- Compiles `.java` files into `.class` files into a sub-directory based on the package name (e.g. `com/hannonhill/cascade/shibb`)
-2. JAR up the class files: `jar cf shib-plugin.jar com` where "com" is the directory containing your class files
+1. Compile the Java class: 
+  
+    ```
+    /path/to/cascade/java/jdk/bin/javac -cp /path/to/cascade/tomcat/lib/*:/path/to/cascade/tomcat/webapps/ROOT/WEB-INF/lib/*:/path/to/cascade/tomcat/webapps/ROOT/WEB-INF/classes ShibbAuthentication.java -d .
+    ```
+
+    - Where `/path/to/cascade` is replaced by the Cascade CMS installation path.
+    - Compiles `.java` files into `.class` files into a sub-directory based on the package name (e.g. `com/hannonhill/cascade/shibb`)
+2. JAR up the class files: `/path/to/cascade/java/jdk/bin/jar cf shib-plugin.jar com` where "com" is the directory containing your class files
 
 #### Install the plugin 
 
@@ -182,9 +185,11 @@ Requires the following JARs be located in this directory for compilation:
 5. Go to System Menu > Configuration > Custom Authentication
 6. Add the following configuration and substitute the `<class-name>` for the package-qualified classname of your plugin class that you wrote:
 
-        <custom-authentication-module>
-          <class-name>com.hannonhill.cascade.shibb.ShibbAuthentication</class-name>
-          <should-intercept-login-page>true</should-intercept-login-page>
-        </custom-authentication-module>
+    ```
+    <custom-authentication-module>
+      <class-name>com.hannonhill.cascade.shibb.ShibbAuthentication</class-name>
+      <should-intercept-login-page>true</should-intercept-login-page>
+    </custom-authentication-module>
+    ```
         
 7. Attempt to connect to your instance again. After authenticating in Shibboleth you should be automatically taken into Cascade.
