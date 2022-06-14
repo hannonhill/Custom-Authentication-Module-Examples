@@ -65,7 +65,7 @@ public class CascadeShibAuth implements Authenticator
                 response.sendRedirect(Authenticator.AUTHENTICATION_URI);
                 return true;
             case LOGOUT:
-                log("Redirecting to custom logout URL: ", LOGOUT_URL);
+                log("Redirecting to custom logout URL: " + LOGOUT_URL);
                 // Shibboleth doesn't support Single Sign-Out but this will ensure that
                 // the local Shibboleth session is destroyed and that the system will have
                 // to go back to the Shibboleth IdP to ensure the user is still logged in.
