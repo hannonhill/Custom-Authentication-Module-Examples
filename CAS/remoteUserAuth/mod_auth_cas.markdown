@@ -93,6 +93,8 @@ If anything fails, please check that you have all of the module’s dependencies
         </RequireAny>
       </LocationMatch>
 
-      ProxyPass / ajp://<internal-ip>:8009/
-      ProxyPassReverse / ajp://<internal-ip>:8009/
+      ProxyPass         /websocket ws://<internal-ip>:8080/websocket
+      ProxyPassReverse  /websocket ws://<internal-ip>:8080/websocket
+      ProxyPass         / ajp://<internal-ip>:8009/
+      ProxyPassReverse  / ajp://<internal-ip>:8009/
     </VirtualHost>
